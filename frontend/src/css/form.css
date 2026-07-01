@@ -1,0 +1,41 @@
+form{
+    width: 300px;
+    border: 4px;
+    box-shadow: 0px 0px 4px gray;
+    
+    margin: 150px auto;
+    padding: 50px;
+    border-radius: 20px;
+}
+
+form .information input{
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 4px;
+    box-shadow: 0px 0px 4px gray;
+    margin: 10px 0px;
+}
+
+form .btnsubmit{
+    padding: 15px;
+    background-color: #7B88FF;
+    border: 4px;
+    border-radius: 5px;
+   text-align: center;
+}
+
+form .informationimage{
+    width: 200px;
+    margin: auto;
+}
+
+form .informationimage img{
+    width: 200px;
+    margin: auto;
+}
+.divbtnsubmit{
+    width: 70px;
+    margin: auto;
+    margin-bottom: 20px;
+}
