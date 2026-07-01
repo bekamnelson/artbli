@@ -1,0 +1,65 @@
+nav{
+    display: flex;
+    gap: 10px;
+    height: 200px;
+    background-color: #000000;
+    border: 4px;
+    box-shadow: 0px 0px gray;
+}
+
+.navimage{
+    flex: 1;
+}
+
+.navimage img{
+    height: 200px;
+    
+}
+.bouton{
+    background-color: #7B88FF;
+    padding: 20px 15px;
+    border: 4px;
+    box-shadow: 0px 0px 4px gray;
+    border-radius: 15px;
+    height: 20px;
+    text-decoration: none;
+    text-transform: none;
+    margin: 50px 10px;
+}
+
+.container{
+    display: flex;
+    width: 100%;
+    height: 80vh;
+    
+}
+
+.container .description{
+    width: 50%;
+    padding:30px 100px;
+    text-align: justify;
+    font-size: 2em;
+}
+
+.container .description p{
+    font-weight: 900;
+}
+
+.container .description .bouton{
+    display: inline-block;
+    
+}
+.container .image{
+     width: 50%;
+} 
+
+.container .image img{
+     width: 100%;
+}
+
+footer{
+    background-color: #7B88FF;
+   
+    text-align: center;
+    padding: 100px;
+}
