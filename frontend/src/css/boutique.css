@@ -1,0 +1,157 @@
+.boutique-page {
+    min-height: 100vh;
+    background-color: #f4f5f9;
+    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+}
+
+.boutique-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.titre-section {
+    font-size: 2.5rem;
+    color: #111827;
+    margin-bottom: 40px;
+    text-align: center;
+    font-weight: 800;
+}
+
+/* La grille qui s'adapte automatiquement à l'écran */
+.grille-livres {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+/* Design de la carte du livre */
+.carte-livre {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(123, 136, 255, 0.08);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(123, 136, 255, 0.1);
+}
+
+.carte-livre:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 35px rgba(123, 136, 255, 0.15);
+}
+
+/* Fausse couverture de livre générée en CSS */
+.couverture-livre {
+    height: 180px;
+    background: linear-gradient(135deg, #7B88FF, #a3afff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.contenu-livre {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.badge-categorie {
+    background-color: rgba(123, 136, 255, 0.15);
+    color: #7B88FF;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    align-self: flex-start;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.titre-livre {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+}
+
+.auteur-livre {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin: 0 0 15px 0;
+    font-weight: 500;
+}
+
+.description-livre {
+    font-size: 0.9rem;
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    flex-grow: 1;
+}
+
+/* Bouton spécifique pour la carte */
+.btn-details {
+    text-align: center;
+    background-color: transparent;
+    color: #7B88FF;
+    border: 2px solid #7B88FF;
+    padding: 10px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-details:hover {
+    background-color: #7B88FF;
+    color: white;
+}
+
+/* Loader */
+.loader {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #7B88FF;
+    font-weight: bold;
+    margin-top: 50px;
+}
+/* --- Barre de recherche --- */
+.recherche-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+.recherche-input {
+    width: 100%;
+    max-width: 600px;
+    padding: 16px 25px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 50px; /* Forme arrondie très moderne */
+    font-size: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 10px 25px rgba(123, 136, 255, 0.08);
+    transition: all 0.3s ease;
+    color: #333;
+}
+
+.recherche-input::placeholder {
+    color: #9ca3af;
+}
+
+.recherche-input:focus {
+    outline: none;
+    border-color: #7B88FF;
+    box-shadow: 0 0 0 4px rgba(123, 136, 255, 0.15);
+    transform: translateY(-2px);
+}

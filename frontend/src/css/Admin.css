@@ -1,0 +1,198 @@
+/* Layout principal */
+.admin-layout {
+    display: flex;
+    height: 100vh;
+    background-color: #f4f5f9;
+}
+
+/* --- BARRE LATÉRALE --- */
+.sidebar {
+    width: 260px;
+    background-color: #ffffff;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    height: 100vh; /* S'assure qu'elle prend toute la hauteur */
+}
+
+.sidebar-logo {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+.sidebar-logo img {
+    height: 50px;
+    object-fit: contain;
+}
+
+.sidebar-logo h2 {
+    color: #7B88FF;
+    margin-top: 10px;
+    font-size: 1.2rem;
+}
+
+/* --- NAVIGATION (Correction de l'espacement) --- */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: flex-start; /* Force les éléments à rester en haut */
+    gap: 5px; /* Petit espace régulier entre chaque bouton */
+    padding-top: 10px;
+}
+
+.sidebar-nav button {
+    background: none;
+    border: none;
+    padding: 15px 25px;
+    text-align: left;
+    font-size: 1rem;
+    color: #4b5563;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+    display: flex;
+    align-items: center; /* Aligne l'icône et le texte verticalement */
+    gap: 12px; /* Espace entre l'icône et le texte */
+}
+
+/* Fixer la largeur des icônes pour que le texte soit bien aligné */
+.sidebar-nav button i {
+    width: 20px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.sidebar-nav button:hover {
+    background-color: #f0f2ff;
+    color: #7B88FF;
+}
+
+.sidebar-nav button.active {
+    background-color: #f0f2ff;
+    color: #7B88FF;
+    border-left: 4px solid #7B88FF;
+    font-weight: bold;
+}
+
+/* --- BOUTON BOUTIQUE --- */
+.sidebar-divider {
+    height: 1px;
+    background-color: #eee;
+    margin: 15px 20px;
+}
+
+.btn-boutique {
+    color: #10b981 !important; /* Couleur verte pour différencier */
+}
+.btn-boutique:hover {
+    background-color: #ecfdf5 !important;
+    border-left-color: #10b981 !important;
+}
+
+/* --- BOUTON DÉCONNEXION --- */
+.logout-btn {
+    margin: 20px;
+    padding: 12px;
+    background-color: #ff4b4b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #e03e3e;
+}
+
+/* Contenu principal */
+.admin-content {
+    flex-grow: 1;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+.tab-pane h2 {
+    margin-top: 0;
+    color: #111827;
+    margin-bottom: 30px;
+}
+
+/* Tableaux */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.admin-table th, .admin-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.admin-table th {
+    background-color: #f8f9fa;
+    color: #4b5563;
+    font-weight: 600;
+}
+
+.btn-edit, .btn-delete {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 0.9rem;
+}
+
+.btn-edit {
+    background-color: #7B88FF;
+    color: white;
+}
+
+.btn-delete {
+    background-color: #ff4b4b;
+    color: white;
+}
+
+/* Formulaires Admin */
+.admin-form {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.admin-form input, .admin-form textarea {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+}
+
+.btn-cancel {
+    padding: 12px;
+    background-color: #e5e7eb;
+    color: #374151;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}

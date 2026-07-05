@@ -2,20 +2,36 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+
 use App\Models\livre;
-class utilisateur extends Model
+use App\Models\location;
+
+
+class utilisateur extends Authenticatable
 {
-    protected $fillable=[
+    use HasApiTokens, Notifiable; 
+
+    protected $fillable = [
         'username',
         'email',
-        'password'
+        'password',
+        'statut',
     ];
+
+    
+    protected $hidden = [
+        'password',
+    ];
+
     public function livres()
     {
         
-        return $this->belongsToMany(livre::class, 'location')
-                     ->using(location::class) 
-                    ->withTimestamps();;
+        return $this->belongsToMany(livre::class, 'locations')
+                    ->using(location::class) 
+                    ->withTimestamps();
     }
 }

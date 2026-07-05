@@ -1,0 +1,36 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.navimage img {
+    height: 50px; /* Ajuste selon la taille de ton logo */
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Espace entre les liens */
+}
+
+.nav-item {
+    text-decoration: none;
+    color: #4b5563;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-item:hover {
+    color: #7B88FF; /* La couleur principale de ton thème */
+}
+
+.btn-logout {
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+}

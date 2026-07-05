@@ -1,75 +1,70 @@
-import './../css/form.css';
-import image from './../assets/image.png';
-import { Link , useNavigate} from 'react-router-dom';
 import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import './../css/form.css';
+import logo from './../assets/image.png';
+export default function Formulaire() {
+    const [formData, setFormData] = useState({
+        username: '', email: '', password: '', confirmPassword: ''
+    });
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-function Formulaire() {
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
-   const [formDate, setformdata] = useState({});
-   const navigate = useNavigate();
-   const handleChange = (e)=>{
-    const { name, value } = e.target;
-      setformdata((prev)=>({
-        ...prev,
-        [name]:value
-      }));
-   }
-
-   const handleSubmit =(e)=>{
-    e.preventDefault();
-
-    fetch('http://127.0.0.1:8000/api/singup',{
-        method: 'POST',
-        headers: {
-              'Content-Type': 'application/json', 
-          },
-        body:JSON.stringify(formDate)
-    }).then(async (reponse) => {
-    const data = await reponse.json();
-    
-    if (!reponse.ok) {
-        
-        console.log("Erreurs de validation :", data.errors);
-       
-        return;
-    }
-
-    navigate(`/login`);
-
-}).catch((error) => console.error("Erreur lors du login:", error));
-   }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (formData.password !== formData.confirmPassword) {
+            setError("Les mots de passe ne correspondent pas");
+            return;
+        }
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/singup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: formData.username,
+                    email: formData.email,
+                    password: formData.password
+                })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.setItem('token', data.access_token);
+                navigate('/boutique');
+            } else {
+                setError(data.message || "Erreur lors de l'inscription");
+            }
+        } catch (err) {
+            setError("Erreur de connexion au serveur");
+        }
+    };
 
     return (
-        <form action="#" onSubmit={handleSubmit}>
-                <div className="informationimage">
-                    <img src={image} alt="ARTBLI" />
+        <div className="auth-page">
+            <div className="form-container">
+                <img src={logo} alt="Logo ARTBLI" className="form-logo" />
+                
+                <form className="form-box" onSubmit={handleSubmit}>
+                    <h2>Créer un compte</h2>
+                    {error && <div className="error-message">{error}</div>}
+                    
+                    <input type="text" name="username" placeholder="Nom d'utilisateur" onChange={handleChange} required />
+                    <input type="email" name="email" placeholder="Adresse email" onChange={handleChange} required />
+                    <input type="password" name="password" placeholder="Mot de passe" onChange={handleChange} required />
+                    <input type="password" name="confirmPassword" placeholder="Confirmer le mot de passe" onChange={handleChange} required />
+                    
+                    <button type="submit" className="btn-submit">S'inscrire</button>
+                </form>
 
+                <div className="form-footer">
+                    <p>Déjà un compte ? <Link to="/login">Se connecter</Link></p>
+                </div>
             </div>
-            <div className="information">
-                <label htmlFor="username">nom:</label><br />
-                <input type="text" name="username" id="username" onChange={handleChange}/>
-            </div>
-            <div className="information">
-                <label htmlFor="emial">email:</label><br />
-                <input type="email" name="email" id="email" onChange={handleChange}/>
-            </div>
-            <div className="information">
-                <label htmlFor="password">mot de passe:</label><br />
-                <input type="password" name="password" id="password" onChange={handleChange}/>
-            </div>
-            <div className="information">
-                <label htmlFor="confirmpassword">confirmer votre mot de passe:</label><br />
-                <input type="password" name="confirmpassword" id="confirmpassword" onChange={handleChange} />
-            </div>
-
-            <div className='divbtnsubmit'>
-                <button className='btnsubmit' >envoyer</button>
-            </div>
-            <div>
-                deja un compte?<Link to='/login' >se connecter</Link>
-            </div>
-        </form>
+        </div>
     );
 }
-
-export default Formulaire;

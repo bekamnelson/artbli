@@ -1,41 +1,127 @@
-form{
-    width: 300px;
-    border: 4px;
-    box-shadow: 0px 0px 4px gray;
-    
-    margin: 150px auto;
-    padding: 50px;
-    border-radius: 20px;
+/* Reset basique pour la page d'auth */
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f5f9; /* Fond gris très clair pour faire ressortir la carte */
+    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
 }
 
-form .information input{
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    border: 4px;
-    box-shadow: 0px 0px 4px gray;
-    margin: 10px 0px;
+    max-width: 420px;
+    padding: 20px;
 }
 
-form .btnsubmit{
-    padding: 15px;
+.form-logo {
+    height: 70px;
+    margin-bottom: 30px;
+    object-fit: contain;
+}
+
+/* La carte du formulaire */
+.form-box {
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+    padding: 40px;
+    border-radius: 20px;
+    /* Ombre moderne teintée avec ton violet */
+    box-shadow: 0 15px 35px rgba(123, 136, 255, 0.15);
+    border: 1px solid rgba(123, 136, 255, 0.1);
+}
+
+.form-box h2 {
+    text-align: center;
+    color: #1a1a1a;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/* Style des champs de saisie */
+.form-box input {
+    padding: 15px 18px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background-color: #fafafa;
+    color: #333;
+}
+
+.form-box input::placeholder {
+    color: #a0aec0;
+}
+
+.form-box input:focus {
+    outline: none;
+    border-color: #7B88FF; /* Ton violet */
+    background-color: #ffffff;
+    /* Effet de halo violet au focus */
+    box-shadow: 0 0 0 4px rgba(123, 136, 255, 0.15);
+}
+
+/* Bouton spécifique au formulaire (écrase le .bouton global) */
+.btn-submit {
     background-color: #7B88FF;
-    border: 4px;
-    border-radius: 5px;
-   text-align: center;
+    color: white;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(123, 136, 255, 0.3);
 }
 
-form .informationimage{
-    width: 200px;
-    margin: auto;
+.btn-submit:hover {
+    background-color: #6574ff; /* Violet un peu plus foncé */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(123, 136, 255, 0.4);
 }
 
-form .informationimage img{
-    width: 200px;
-    margin: auto;
+.btn-submit:active {
+    transform: translateY(0);
 }
-.divbtnsubmit{
-    width: 70px;
-    margin: auto;
-    margin-bottom: 20px;
+
+/* Gestion des erreurs */
+.error-message {
+    background-color: #fee2e2;
+    color: #ef4444;
+    padding: 12px 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    text-align: center;
+    border: 1px solid #fca5a5;
+    font-weight: 500;
+}
+
+/* Liens en bas */
+.form-footer {
+    margin-top: 25px;
+    font-size: 15px;
+    color: #64748b;
+    text-align: center;
+}
+
+.form-footer a {
+    color: #7B88FF;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.form-footer a:hover {
+    color: #5262ff;
+    text-decoration: underline;
 }

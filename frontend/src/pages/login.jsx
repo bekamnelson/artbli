@@ -1,67 +1,65 @@
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import './../css/form.css';
-import image from './../assets/image.png';
-import { Link, useNavigate } from 'react-router-dom';
-import { useState} from 'react';
+import logo from './../assets/image.png'
+export default function Login() {
+    const [formData, setFormData] = useState({ email: '', password: '' });
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-function Login() {
-   const [formData,setFormData] =useState({});
-   const navigate = useNavigate();
-  
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
-   const handleChange = (e)=>{
-    const {name,value}= e.target;
-    setFormData((prev)=>({
-        ...prev,
-        [name]:value
-
-    }));
-   }
-
-   const handleSubmit =  (e)=>{
-    e.preventDefault();
-
-    fetch('http://127.0.0.1:8000/api/login',{
-        method:'POST',
-        headers:{
-            'Content-type':'application/json'
-        },
-        body: JSON.stringify(formData)
-    }).then(async (reponse)=>{
-        const data = await reponse.json();
-        if(data.id){
-            navigate(`/boutique/${data.id}`)
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.setItem('token', data.access_token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                
+               
+                if (data.user.statut === 'admin') {
+                    navigate('/admin'); 
+                } else {
+                    navigate('/boutique'); 
+                }
+            } else {
+                setError(data.message || "Identifiants incorrects");
+            }
+        } catch (err) {
+            setError("Erreur de connexion au serveur");
         }
-    }).catch((error)=>{
-        console.error("Erreur lors de la connexion :", error);
-        
-    })
-   }
-
+    };
 
     return (
-        <form action="#" onSubmit={handleSubmit}>
-                <div className="informationimage">
-                    <img src={image} alt="ARTBLI" />
+        <div className="auth-page">
+            <div className="form-container">
+                <img src={logo} alt="Logo ARTBLI" className="form-logo" />
+                
+                <form className="form-box" onSubmit={handleSubmit}>
+                    <h2>Bon retour !</h2>
+                    {error && <div className="error-message">{error}</div>}
 
-            </div>
+                    <input type="email" name="email" placeholder="Adresse email" onChange={handleChange} required />
+                    <input type="password" name="password" placeholder="Mot de passe" onChange={handleChange} required />
+                    
+                    <button type="submit" className="btn-submit">Se connecter</button>
+                </form>
 
-            <div className="information">
-                <label htmlFor="emial">email:</label><br />
-                <input type="email" name="email" id="email" onChange={handleChange}/>
+                <div className="form-footer">
+                    <p>Pas encore de compte ? <Link to="/singup">Créer un compte</Link></p>
+                </div>
             </div>
-            <div className="information">
-                <label htmlFor="password">mot de passe:</label><br />
-                <input type="password" name="password" id="password" onChange={handleChange}/>
-            </div>
-           
-            <div className='divbtnsubmit'>
-                <button className='btnsubmit'>envoyer</button>
-            </div>
-            <div>
-                deja un compte?<Link to='/form'>creer un compte </Link>
-            </div>
-        </form>
+        </div>
     );
 }
-
-export default Login;
