@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/navarbar';
+import { FaSearch } from 'react-icons/fa'; 
 import './../css/boutique.css';
 
 export default function Boutique() {
@@ -8,7 +9,6 @@ export default function Boutique() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     
-   
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
@@ -37,7 +37,6 @@ export default function Boutique() {
         }
     };
 
-   
     const livresFiltres = livres.filter((livre) => {
         return (
             livre.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -52,8 +51,9 @@ export default function Boutique() {
             <div className="boutique-container">
                 <h1 className="titre-section">Notre Catalogue</h1>
 
-              
+                
                 <div className="recherche-container">
+                    <FaSearch className="search-icon" />
                     <input 
                         type="text" 
                         className="recherche-input" 
@@ -67,7 +67,6 @@ export default function Boutique() {
                 
                 {error && <div className="error-message" style={{maxWidth: '600px', margin: '0 auto'}}>{error}</div>}
 
-               
                 {!loading && !error && livresFiltres.length === 0 && (
                     <p style={{textAlign: 'center', color: '#6b7280', fontSize: '1.1rem'}}>
                         Aucun livre ne correspond à votre recherche.
@@ -75,7 +74,6 @@ export default function Boutique() {
                 )}
 
                 <div className="grille-livres">
-                   
                     {livresFiltres.map((livre) => (
                         <div key={livre.id} className="carte-livre">
                             <div className="couverture-livre">

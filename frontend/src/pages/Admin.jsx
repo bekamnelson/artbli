@@ -1,168 +1,126 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaBook, FaPlus, FaUsers, FaStore, FaSignOutAlt, FaTrash, FaEdit } from 'react-icons/fa';
 import logo from './../assets/image.png';
 import './../css/Admin.css';
 
 export default function Admin() {
-    const [activeTab, setActiveTab] = useState('liste'); 
+    const [activeTab, setActiveTab] = useState('liste');
     const [livres, setLivres] = useState([]);
+    const [utilisateurs, setUtilisateurs] = useState([]);
     const [formData, setFormData] = useState({ nom: '', auteur: '', categorie: '', description: '' });
-    const [editId, setEditId] = useState(null);
+    const [editId, setEditId] = useState(null); 
     const navigate = useNavigate();
 
-   
     useEffect(() => {
         fetchLivres();
+        fetchUtilisateurs();
     }, []);
 
     const fetchLivres = async () => {
-        try {
-            const response = await fetch('http://127.0.0.1:8000/api/livre');
-            const data = await response.json();
-            setLivres(data);
-        } catch (error) {
-            console.error("Erreur lors de la récupération des livres", error);
-        }
+        const res = await fetch('http://127.0.0.1:8000/api/livre');
+        setLivres(await res.json());
     };
 
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const fetchUtilisateurs = async () => {
+        const res = await fetch('http://127.0.0.1:8000/api/users');
+        setUtilisateurs(await res.json());
     };
 
+    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
+   
     const handleAddSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await fetch('http://127.0.0.1:8000/api/livre', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body: JSON.stringify(formData)
-            });
-            if (response.ok) {
-                alert("Livre ajouté avec succès !");
-                setFormData({ nom: '', auteur: '', categorie: '', description: '' });
-                fetchLivres();
-                setActiveTab('liste');
-            }
-        } catch (error) {
-            console.error("Erreur d'ajout", error);
-        }
+        await fetch('http://127.0.0.1:8000/api/livre', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        });
+        setFormData({ nom: '', auteur: '', categorie: '', description: '' });
+        fetchLivres();
+        setActiveTab('liste');
     };
 
-  
+   
     const handleEditClick = (livre) => {
         setFormData({ nom: livre.nom, auteur: livre.auteur, categorie: livre.categorie, description: livre.description });
         setEditId(livre.id);
         setActiveTab('modifier');
     };
 
-  
+   
     const handleEditSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await fetch(`http://127.0.0.1:8000/api/livre/${editId}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body: JSON.stringify(formData)
-            });
-            if (response.ok) {
-                alert("Livre modifié avec succès !");
-                setFormData({ nom: '', auteur: '', categorie: '', description: '' });
-                setEditId(null);
-                fetchLivres();
-                setActiveTab('liste');
-            }
-        } catch (error) {
-            console.error("Erreur de modification", error);
+        await fetch(`http://127.0.0.1:8000/api/livre/${editId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        });
+        setFormData({ nom: '', auteur: '', categorie: '', description: '' });
+        setEditId(null);
+        fetchLivres();
+        setActiveTab('liste');
+    };
+
+  
+    const handleDeleteLivre = async (id) => {
+        if (window.confirm("Supprimer ce livre ?")) {
+            await fetch(`http://127.0.0.1:8000/api/livre/${id}`, { method: 'DELETE' });
+            fetchLivres();
         }
     };
 
    
-    const handleDelete = async (id) => {
-        if (window.confirm("Êtes-vous sûr de vouloir supprimer ce livre ?")) {
-            try {
-                const response = await fetch(`http://127.0.0.1:8000/api/livre/${id}`, {
-                    method: 'DELETE',
-                });
-                if (response.ok) {
-                    fetchLivres();
-                }
-            } catch (error) {
-                console.error("Erreur de suppression", error);
-            }
+    const handleDeleteUser = async (id) => {
+        if (window.confirm("Supprimer cet utilisateur ?")) {
+            await fetch(`http://127.0.0.1:8000/api/users/${id}`, { method: 'DELETE' });
+            fetchUtilisateurs();
         }
     };
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        localStorage.clear();
         navigate('/login');
     };
 
     return (
         <div className="admin-layout">
            
-             {/* BARRE LATÉRALE (SIDEBAR) */}
             <aside className="sidebar">
                 <div className="sidebar-logo">
-                    <img src={logo} alt="Logo ARTBLI" />
+                    <img src={logo} alt="Logo" />
                     <h2>Admin</h2>
                 </div>
-                
                 <nav className="sidebar-nav">
-                    <button className={activeTab === 'liste' ? 'active' : ''} onClick={() => setActiveTab('liste')}>
-                        <i className="fa-solid fa-book"></i> Gestion Livres
-                    </button>
-                    
-                    <button className={activeTab === 'ajouter' ? 'active' : ''} onClick={() => {setActiveTab('ajouter'); setFormData({ nom: '', auteur: '', categorie: '', description: '' });}}>
-                        <i className="fa-solid fa-plus"></i> Ajouter un livre
-                    </button>
-                    
-                    <button className={activeTab === 'utilisateurs' ? 'active' : ''} onClick={() => setActiveTab('utilisateurs')}>
-                        <i className="fa-solid fa-users"></i> Utilisateurs
-                    </button>
-
-                    {/* NOUVEAU BOUTON : Accès Boutique */}
+                    <button className={activeTab === 'liste' ? 'active' : ''} onClick={() => setActiveTab('liste')}><FaBook /> Gestion Livres</button>
+                    <button className={activeTab === 'ajouter' ? 'active' : ''} onClick={() => {setActiveTab('ajouter'); setFormData({ nom: '', auteur: '', categorie: '', description: '' });}}><FaPlus /> Ajouter un livre</button>
+                    <button className={activeTab === 'utilisateurs' ? 'active' : ''} onClick={() => setActiveTab('utilisateurs')}><FaUsers /> Utilisateurs</button>
                     <div className="sidebar-divider"></div>
-                    <button className="btn-boutique" onClick={() => navigate('/boutique')}>
-                        <i className="fa-solid fa-store"></i> Voir la boutique
-                    </button>
+                    <button className="btn-boutique" onClick={() => navigate('/boutique')}><FaStore /> Boutique</button>
                 </nav>
-
-                <button className="logout-btn" onClick={handleLogout}>
-                    <i className="fa-solid fa-right-from-bracket"></i> Déconnexion
-                </button>
+                <button className="logout-btn" onClick={handleLogout}><FaSignOutAlt /> Déconnexion</button>
             </aside>
 
-
-            {/* CONTENU PRINCIPAL */}
+           
             <main className="admin-content">
                 
-                {/* VUE : LISTE DES LIVRES */}
+             
                 {activeTab === 'liste' && (
                     <div className="tab-pane">
                         <h2>Liste des livres</h2>
                         <table className="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nom</th>
-                                    <th>Auteur</th>
-                                    <th>Catégorie</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
+                            <thead><tr><th>Nom</th><th>Auteur</th><th>Catégorie</th><th>Actions</th></tr></thead>
                             <tbody>
-                                {livres.map(livre => (
-                                    <tr key={livre.id}>
-                                        <td>{livre.id}</td>
-                                        <td>{livre.nom}</td>
-                                        <td>{livre.auteur}</td>
-                                        <td>{livre.categorie}</td>
+                                {livres.map(l => (
+                                    <tr key={l.id}>
+                                        <td>{l.nom}</td>
+                                        <td>{l.auteur}</td>
+                                        <td>{l.categorie}</td>
                                         <td>
-                                            <button className="btn-edit" onClick={() => handleEditClick(livre)}>Modifier</button>
-                                            <button className="btn-delete" onClick={() => handleDelete(livre.id)}>Supprimer</button>
+                                          
+                                            <button className="btn-edit" onClick={() => handleEditClick(l)} style={{marginRight: '10px'}}><FaEdit /> Modifier</button>
+                                            <button className="btn-delete" onClick={() => handleDeleteLivre(l.id)}><FaTrash /> Supprimer</button>
                                         </td>
                                     </tr>
                                 ))}
@@ -171,12 +129,12 @@ export default function Admin() {
                     </div>
                 )}
 
-                {/* VUE : AJOUTER UN LIVRE */}
+               
                 {activeTab === 'ajouter' && (
                     <div className="tab-pane">
-                        <h2>Ajouter un nouveau livre</h2>
+                        <h2>Ajouter un livre</h2>
                         <form className="admin-form" onSubmit={handleAddSubmit}>
-                            <input type="text" name="nom" placeholder="Titre du livre" value={formData.nom} onChange={handleChange} required />
+                            <input type="text" name="nom" placeholder="Titre" value={formData.nom} onChange={handleChange} required />
                             <input type="text" name="auteur" placeholder="Auteur" value={formData.auteur} onChange={handleChange} required />
                             <input type="text" name="categorie" placeholder="Catégorie" value={formData.categorie} onChange={handleChange} required />
                             <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} required rows="5"></textarea>
@@ -185,12 +143,12 @@ export default function Admin() {
                     </div>
                 )}
 
-                {/* VUE : MODIFIER UN LIVRE */}
+               
                 {activeTab === 'modifier' && (
                     <div className="tab-pane">
                         <h2>Modifier le livre</h2>
                         <form className="admin-form" onSubmit={handleEditSubmit}>
-                            <input type="text" name="nom" placeholder="Titre du livre" value={formData.nom} onChange={handleChange} required />
+                            <input type="text" name="nom" placeholder="Titre" value={formData.nom} onChange={handleChange} required />
                             <input type="text" name="auteur" placeholder="Auteur" value={formData.auteur} onChange={handleChange} required />
                             <input type="text" name="categorie" placeholder="Catégorie" value={formData.categorie} onChange={handleChange} required />
                             <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} required rows="5"></textarea>
@@ -200,14 +158,25 @@ export default function Admin() {
                     </div>
                 )}
 
-                {/* VUE : UTILISATEURS (En attente de ton backend) */}
+               
                 {activeTab === 'utilisateurs' && (
                     <div className="tab-pane">
                         <h2>Gestion des utilisateurs</h2>
-                        <p>Cette section affichera la liste des utilisateurs une fois la route API créée.</p>
+                        <table className="admin-table">
+                            <thead><tr><th>Nom</th><th>Email</th><th>Actions</th></tr></thead>
+                            <tbody>
+                                {utilisateurs.map(u => (
+                                    <tr key={u.id}>
+                                        <td>{u.username}</td><td>{u.email}</td>
+                                        <td>
+                                            <button className="btn-delete" onClick={() => handleDeleteUser(u.id)}><FaTrash /> Supprimer</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 )}
-
             </main>
         </div>
     );

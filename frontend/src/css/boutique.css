@@ -154,4 +154,27 @@
     border-color: #7B88FF;
     box-shadow: 0 0 0 4px rgba(123, 136, 255, 0.15);
     transform: translateY(-2px);
+}/* Positionnement du conteneur pour pouvoir placer la loupe dedans */
+.recherche-container {
+    position: relative;
+    max-width: 500px; /* Ajuste selon la taille que tu souhaites */
+    margin: 0 auto 30px auto; /* Centre la barre de recherche */
+}
+
+/* Style et position de la loupe */
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    font-size: 1.1rem;
+}
+
+/* On ajoute de l'espace à gauche du texte pour ne pas écrire sur la loupe */
+.recherche-input {
+    width: 100%;
+    padding: 12px 15px 12px 45px; /* Le 45px est important ici ! */
+    box-sizing: border-box;
+    /* Garde le reste de tes styles pour .recherche-input ici (border, border-radius, etc.) */
 }

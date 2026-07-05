@@ -1,59 +1,58 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import logo from './../assets/image.png';
-import './../css/navbar.css'; 
+import logo from './../assets/image.png'; 
 export default function Navbar() {
-    const [user, setUser] = useState(null);
     const navigate = useNavigate();
+    
+
+    const userString = localStorage.getItem('user');
+    const user = userString ? JSON.parse(userString) : null;
 
   
-    useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-    }, []);
+    const isAdmin = user && user.statut === 'admin';
 
-   
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        setUser(null);
-        navigate('/'); 
+        navigate('/login');
     };
 
     return (
-        <nav className="navbar">
+        <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px 8%', backgroundColor: 'white', boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
+            
+            {/* LOGO */}
             <div className="navimage">
-                <Link to={user ? "/boutique" : "/"}>
-                    <img src={logo} alt="Logo ARTBLI" />
+                <Link to="/">
+                    <img src={logo} alt="Logo ARTBLI" style={{ height: '45px' }} />
                 </Link>
             </div>
-            
-            <div className="nav-links">
+
+     
+            <div className="nav-links" style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                <Link to="/boutique" style={{ textDecoration: 'none', color: '#333', fontWeight: 'bold' }}>Boutique</Link>
+                
                
                 {user ? (
                     <>
+                        <Link to="/profil" style={{ textDecoration: 'none', color: '#333', fontWeight: 'bold' }}>Mon Profil</Link>
                         
-                        {user.statut === 'admin' && (
-                            <Link to="/admin" className="nav-item">Tableau de bord</Link>
+                    
+                        {isAdmin && (
+                            <Link to="/admin" style={{ textDecoration: 'none', color: '#7B88FF', fontWeight: 'bold' }}>
+                                Tableau de bord
+                            </Link>
                         )}
-                        
-                      
-                        <Link to="/boutique" className="nav-item">Catalogue</Link>
-                        <Link to="/mes-emprunts" className="nav-item">Mes emprunts</Link>
-                        <Link to="/profil" className="nav-item">Mon profil</Link>
-                        
-                       
-                        <button onClick={handleLogout} className="bouton bouton-outline btn-logout">
-                            Se déconnecter
+
+                        <button onClick={handleLogout} style={{ background: '#ff4b4b', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>
+                            Déconnexion
                         </button>
                     </>
                 ) : (
-                   
+                  
                     <>
-                        <Link to="/login" className="bouton bouton-outline">Se connecter</Link>
-                        <Link to="/singup" className="bouton">Créer un compte</Link>
+                        <Link to="/login" style={{ textDecoration: 'none', color: '#333', fontWeight: 'bold' }}>Connexion</Link>
+                        <Link to="/singup" style={{ background: '#7B88FF', color: 'white', padding: '8px 15px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold' }}>Inscription</Link>
                     </>
                 )}
             </div>

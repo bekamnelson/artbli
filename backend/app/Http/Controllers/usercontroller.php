@@ -60,4 +60,18 @@ class usercontroller extends Controller
             'user' => $user
         ], 200);
     }
+    
+public function index() {
+    $users = \App\Models\utilisateur::all();
+    return response()->json($users, 200);
+}
+
+public function destroy($id) {
+    $user = \App\Models\utilisateur::find($id);
+    if($user) {
+        $user->delete();
+        return response()->json(['message' => 'Utilisateur supprimé'], 200);
+    }
+    return response()->json(['message' => 'Introuvable'], 404);
+}
 }
