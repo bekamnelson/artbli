@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Livre;
 
-class Livrecontroller extends Controller
+class LivreController extends Controller
 {
     
     public function alllivre() {
