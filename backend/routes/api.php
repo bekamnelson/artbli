@@ -2,8 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\controllers\UserController ;
-use App\Http\controllers\livrecontroller ;
+use App\Http\Controllers\UserController ;
+use App\Http\Controllers\livrecontroller ;
 use App\Http\Controllers\LocationController; 
 
 

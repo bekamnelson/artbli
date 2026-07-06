@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\utilisateur; 
 use Illuminate\Support\Facades\Hash;
 
-class usercontroller extends Controller
+class Usercontroller extends Controller
 {
   
     public function singup(Request $request)
