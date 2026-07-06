@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaBook, FaPlus, FaUsers, FaStore, FaSignOutAlt, FaTrash, FaEdit } from 'react-icons/fa';
 import logo from './../assets/image.png';
 import './../css/Admin.css';
+import { API_URL } from '../service/api';
 
 export default function Admin() {
     const [activeTab, setActiveTab] = useState('liste');
@@ -18,12 +19,12 @@ export default function Admin() {
     }, []);
 
     const fetchLivres = async () => {
-        const res = await fetch('http://127.0.0.1:8000/api/livre');
+        const res = await fetch(`${API_URL}/livre`);
         setLivres(await res.json());
     };
 
     const fetchUtilisateurs = async () => {
-        const res = await fetch('http://127.0.0.1:8000/api/users');
+        const res = await fetch(`${API_URL}/users`);
         setUtilisateurs(await res.json());
     };
 
@@ -32,7 +33,7 @@ export default function Admin() {
    
     const handleAddSubmit = async (e) => {
         e.preventDefault();
-        await fetch('http://127.0.0.1:8000/api/livre', {
+        await fetch(`${API_URL}/livre`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
@@ -52,7 +53,7 @@ export default function Admin() {
    
     const handleEditSubmit = async (e) => {
         e.preventDefault();
-        await fetch(`http://127.0.0.1:8000/api/livre/${editId}`, {
+        await fetch(`${API_URL}/livre/${editId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
@@ -66,7 +67,7 @@ export default function Admin() {
   
     const handleDeleteLivre = async (id) => {
         if (window.confirm("Supprimer ce livre ?")) {
-            await fetch(`http://127.0.0.1:8000/api/livre/${id}`, { method: 'DELETE' });
+            await fetch(`${API_URL}/livre/${id}`, { method: 'DELETE' });
             fetchLivres();
         }
     };
@@ -74,7 +75,7 @@ export default function Admin() {
    
     const handleDeleteUser = async (id) => {
         if (window.confirm("Supprimer cet utilisateur ?")) {
-            await fetch(`http://127.0.0.1:8000/api/users/${id}`, { method: 'DELETE' });
+            await fetch(`${API_URL}/users/${id}`, { method: 'DELETE' });
             fetchUtilisateurs();
         }
     };

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/navarbar';
 import { FaBookOpen } from 'react-icons/fa';
+import { API_URL } from '../service/api';
 
 export default function MonProfil() {
     const [emprunts, setEmprunts] = useState([]);
@@ -17,7 +18,7 @@ export default function MonProfil() {
             return;
         }
 
-        fetch(`http://127.0.0.1:8000/api/user/${user.id}/emprunts`)
+        fetch(`${API_URL}/user/${user.id}/emprunts`)
             .then(res => {
                 if (!res.ok) {
                     throw new Error("Erreur serveur 500");

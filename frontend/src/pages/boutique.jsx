@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Navbar from '../components/navarbar';
 import { FaSearch } from 'react-icons/fa'; 
 import './../css/boutique.css';
+import { API_URL } from '../service/api';
 
 export default function Boutique() {
     const [livres, setLivres] = useState([]);
@@ -17,7 +18,7 @@ export default function Boutique() {
 
     const fetchLivres = async () => {
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/livre', {
+            const response = await fetch(`${API_URL}/livre`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import Navbar from '../components/navarbar';
+import { API_URL } from '../service/api';
 
 export default function LivreDetail() {
     const { id } = useParams();
@@ -9,7 +10,7 @@ export default function LivreDetail() {
     const [livre, setLivre] = useState(null);
 
     useEffect(() => {
-        fetch(`http://127.0.0.1:8000/api/livre/${id}`)
+        fetch(`${API_URL}/livre/${id}`)
             .then(res => res.json())
             .then(data => setLivre(data));
     }, [id]);
@@ -28,7 +29,7 @@ export default function LivreDetail() {
         console.log("Tentative d'emprunt avec :", { livre_id: livre.id, utilisateur_id: user.id });
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/emprunt', {
+            const response = await fetch(`${API_URL}/emprunt`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -77,7 +78,6 @@ export default function LivreDetail() {
                         <p>{livre.description}</p>
                     </div>
 
-                    {/* BOUTON MODIFIÉ ICI */}
                     <button onClick={handleEmprunt} style={{ marginTop: '30px', padding: '12px 24px', background: '#7B88FF', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '1rem', fontWeight: 'bold' }}>
                         Louer ce livre
                     </button>

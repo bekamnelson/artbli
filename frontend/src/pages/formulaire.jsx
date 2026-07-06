@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './../css/form.css';
 import logo from './../assets/image.png';
+import { API_URL } from '../service/api';
+
 export default function Formulaire() {
     const [formData, setFormData] = useState({
         username: '', email: '', password: '', confirmPassword: ''
@@ -20,7 +22,7 @@ export default function Formulaire() {
             return;
         }
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/singup', {
+            const response = await fetch(`${API_URL}/singup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
