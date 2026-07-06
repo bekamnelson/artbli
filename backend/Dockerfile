@@ -1,14 +1,14 @@
 # ==========================================
 # ÉTAPE 1 : Build de l'application avec Composer
 # ==========================================
-FROM composer:2.7-php8.4 AS builder
+FROM composer:latest AS builder
 WORKDIR /app
 
 # Copier l'ensemble des fichiers du sous-dossier
 COPY . .
 
-# Installer les dépendances PHP de production sans exécuter les scripts Laravel immédiatement
-RUN composer install --no-dev --optimize-autoloader --no-scripts
+# Installer les dépendances en ignorant la version PHP de l'image builder
+RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-reqs
 
 # ==========================================
 # ÉTAPE 2 : Environnement de production (Runtime)
@@ -40,7 +40,7 @@ WORKDIR /var/www/html
 # Copier les fichiers de l'application préparés à l'étape 1
 COPY --from=builder /app .
 
-# Attribuer les permissions correctes pour que Laravel puisse écrire dans ses dossiers de stockage/cache
+# Attribuer les permissions correctes pour que Laravel puisse écrire dans ses dossiers
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Rendre le script de déploiement exécutable
