@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\controllers\Usercontroller ;
+use App\Http\controllers\UserController ;
 use App\Http\controllers\livrecontroller ;
 use App\Http\Controllers\LocationController; 
 
@@ -12,11 +12,11 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::post('/singup',[Usercontroller::class,'singup']);
-Route::post('/login',[Usercontroller::class,'login']);
+Route::post('/singup',[UserController::class,'singup']);
+Route::post('/login',[UserController::class,'login']);
 
-Route::get('/users', [Usercontroller::class, 'index']);
-Route::delete('/users/{id}', [Usercontroller::class, 'destroy']);
+Route::get('/users', [UserController::class, 'index']);
+Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
 Route::get('/livre', [livrecontroller::class, 'alllivre']); 
 Route::get('/livre/{id}', [livrecontroller::class, 'onelivre']); 
