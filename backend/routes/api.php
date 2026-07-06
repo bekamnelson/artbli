@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController ;
-use App\Http\Controllers\livrecontroller ;
+use App\Http\Controllers\LivreController ;
 use App\Http\Controllers\LocationController; 
 
 
@@ -18,11 +18,11 @@ Route::post('/login',[UserController::class,'login']);
 Route::get('/users', [UserController::class, 'index']);
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
-Route::get('/livre', [livrecontroller::class, 'alllivre']); 
-Route::get('/livre/{id}', [livrecontroller::class, 'onelivre']); 
-Route::post('/livre', [livrecontroller::class, 'store']); 
-Route::put('/livre/{id}', [livrecontroller::class, 'update']); 
-Route::delete('/livre/{id}', [livrecontroller::class, 'destroy']);
+Route::get('/livre', [LivreController::class, 'alllivre']); 
+Route::get('/livre/{id}', [LivreController::class, 'onelivre']); 
+Route::post('/livre', [LivreController::class, 'store']); 
+Route::put('/livre/{id}', [LivreController::class, 'update']); 
+Route::delete('/livre/{id}', [LivreController::class, 'destroy']);
 
 Route::post('/emprunt', [LocationController::class, 'store']);
 Route::get('/user/{id}/emprunts', [LocationController::class, 'userEmprunts']);
