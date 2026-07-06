@@ -1,5 +1,5 @@
 # Utiliser l'image officielle PHP avec Apache
-FROM php:8.2-apache
+FROM php:8.4-apache
 
 # Installer les dépendances système et les extensions PHP (dont pdo_mysql)
 RUN apt-get update && apt-get install -y \
