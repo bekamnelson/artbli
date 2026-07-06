@@ -2,7 +2,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\livre;
+use App\Models\Livre;
 
 class location extends Model
 {
@@ -16,6 +16,6 @@ class location extends Model
 
     public function livre() {
         
-        return $this->belongsTo(livre::class, 'livre_id', 'id');
+        return $this->belongsTo(Livre::class, 'livre_id', 'id');
     }
 }

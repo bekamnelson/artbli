@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-use App\Models\livre;
+use App\Models\Livre;
 use App\Models\location;
 
 
@@ -30,7 +30,7 @@ class utilisateur extends Authenticatable
     public function livres()
     {
         
-        return $this->belongsToMany(livre::class, 'locations')
+        return $this->belongsToMany(Livre::class, 'locations')
                     ->using(location::class) 
                     ->withTimestamps();
     }
