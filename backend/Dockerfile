@@ -1,7 +1,7 @@
 # ==========================================
 # ÉTAPE 1 : Build de l'application avec Composer
 # ==========================================
-FROM composer:2.7 AS builder
+FROM composer:2.7-php8.4 AS builder
 WORKDIR /app
 
 # Copier l'ensemble des fichiers du sous-dossier
