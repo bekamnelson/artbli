@@ -4,10 +4,7 @@
 FROM composer:latest AS builder
 WORKDIR /app
 
-# Copier l'ensemble des fichiers du sous-dossier
 COPY . .
-
-# Installer les dépendances en ignorant la version PHP de l'image builder
 RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-reqs
 
 # ==========================================
@@ -15,7 +12,6 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platfo
 # ==========================================
 FROM php:8.4-apache
 
-# Installer les bibliothèques système et les extensions PHP requises par Laravel
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -26,28 +22,26 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_mysql gd
 
-# Configurer le DocumentRoot d'Apache vers le dossier /public de Laravel
+# 1. Configurer le DocumentRoot vers /public
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Activer le module de réécriture d'Apache (Requis pour la gestion des routes de Laravel)
+# 2. CORRECTION DU 404 : Autoriser le .htaccess de Laravel pour que les routes fonctionnent
+RUN echo "<Directory /var/www/html/public>\n\tAllowOverride All\n\tRequire all granted\n</Directory>" >> /etc/apache2/apache2.conf
+
+# 3. CORRECTION RENDER : Forcer Apache à écouter sur le $PORT fourni par Render
+RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
+
+# Activer le module de réécriture
 RUN a2enmod rewrite
 
-# Définir le répertoire de travail final
 WORKDIR /var/www/html
-
-# Copier les fichiers de l'application préparés à l'étape 1
 COPY --from=builder /app .
 
-# Attribuer les permissions correctes pour que Laravel puisse écrire dans ses dossiers
+# Permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Rendre le script de déploiement exécutable
 RUN chmod +x deploy.sh
 
-# Exposer le port par défaut d'Apache
-EXPOSE 80
-
-# Définir le script de déploiement automatique comme point d'entrée
+# Lancer le script
 CMD ["./deploy.sh"]
